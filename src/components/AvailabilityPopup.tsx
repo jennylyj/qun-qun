@@ -39,7 +39,7 @@ export const AvailabilityPopup: React.FC<AvailabilityPopupProps> = ({ isOpen, on
                 <div className="w-14 h-14 rounded-2xl bg-green-100 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <Circle className="w-8 h-8 text-green-600" />
                 </div>
-                <span className="text-sm font-bold text-slate-600">有空</span>
+                <span className="text-sm font-bold text-slate-600">可以</span>
               </button>
 
               <button
@@ -49,7 +49,7 @@ export const AvailabilityPopup: React.FC<AvailabilityPopupProps> = ({ isOpen, on
                 <div className="w-14 h-14 rounded-2xl bg-amber-100 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <Triangle className="w-8 h-8 text-amber-600 fill-current" />
                 </div>
-                <span className="text-sm font-bold text-slate-600">不確定</span>
+                <span className="text-sm font-bold text-slate-600">不偏好</span>
               </button>
 
               <button
@@ -59,7 +59,7 @@ export const AvailabilityPopup: React.FC<AvailabilityPopupProps> = ({ isOpen, on
                 <div className="w-14 h-14 rounded-2xl bg-red-100 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <X className="w-8 h-8 text-red-600" />
                 </div>
-                <span className="text-sm font-bold text-slate-600">沒空</span>
+                <span className="text-sm font-bold text-slate-600">無法</span>
               </button>
             </div>
 
@@ -67,7 +67,7 @@ export const AvailabilityPopup: React.FC<AvailabilityPopupProps> = ({ isOpen, on
               onClick={onClose}
               className="mt-8 w-full py-3 text-slate-400 hover:text-slate-600 text-sm font-bold transition-colors"
             >
-              取消
+              結束
             </button>
           </motion.div>
         </div>

@@ -59,7 +59,7 @@ export const DateDetailsPopup: React.FC<DateDetailsPopupProps> = ({ date, data, 
             <div className="bg-green-50 rounded-2xl p-4 border border-green-100">
               <div className="flex items-center gap-2 mb-3">
                 <Circle className="w-5 h-5 text-green-600" />
-                <span className="font-bold text-green-800">有空 ({usersByAvailability['O'].length})</span>
+                <span className="font-bold text-green-800">可以 ({usersByAvailability['O'].length})</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {usersByAvailability['O'].length > 0 ? (
@@ -78,7 +78,7 @@ export const DateDetailsPopup: React.FC<DateDetailsPopupProps> = ({ date, data, 
             <div className="bg-amber-50 rounded-2xl p-4 border border-amber-100">
               <div className="flex items-center gap-2 mb-3">
                 <Triangle className="w-5 h-5 text-amber-600 fill-current" />
-                <span className="font-bold text-amber-800">不確定 ({usersByAvailability['V'].length})</span>
+                <span className="font-bold text-amber-800">不偏好 ({usersByAvailability['V'].length})</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {usersByAvailability['V'].length > 0 ? (
@@ -97,7 +97,7 @@ export const DateDetailsPopup: React.FC<DateDetailsPopupProps> = ({ date, data, 
             <div className="bg-rose-50 rounded-2xl p-4 border border-rose-100">
               <div className="flex items-center gap-2 mb-3">
                 <X className="w-5 h-5 text-rose-600" />
-                <span className="font-bold text-rose-800">沒空 ({usersByAvailability['X'].length})</span>
+                <span className="font-bold text-rose-800">無法 ({usersByAvailability['X'].length})</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {usersByAvailability['X'].length > 0 ? (
