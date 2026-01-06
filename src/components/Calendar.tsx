@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, eachDayOfInterval, startOfWeek, endOfWeek, isSameMonth, isSameDay, isWithinInterval, min, max } from 'date-fns';
 import { zhTW } from 'date-fns/locale';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Users } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import type { Availability } from '../types';
+import type { Availability, User } from '../types';
+import { VotedUsersPopup } from './VotedUsersPopup';
 
 interface CalendarProps {
   onSelectionComplete: (dates: Date[]) => void;
@@ -13,6 +14,7 @@ interface CalendarProps {
   currentMonth: Date;
   onMonthChange: (date: Date) => void;
   onDayContextMenu: (date: Date, e: React.MouseEvent) => void;
+  currentUser: User | null;
 }
 
 export const Calendar: React.FC<CalendarProps> = ({ 
@@ -20,9 +22,11 @@ export const Calendar: React.FC<CalendarProps> = ({
   data, 
   currentMonth, 
   onMonthChange,
-  onDayContextMenu
+  onDayContextMenu,
+  currentUser
 }) => {
   const [direction, setDirection] = useState(0);
+  const [isVotedUsersOpen, setIsVotedUsersOpen] = useState(false);
   
   // Selection state
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
@@ -141,8 +145,19 @@ export const Calendar: React.FC<CalendarProps> = ({
     if (score > 5) return 'bg-emerald-100 text-emerald-800';
     if (score > 0) return 'bg-emerald-50 text-emerald-700';
     if (score === 0) return 'bg-amber-50 text-amber-700';
-    if (score < -3) return 'bg-rose-100 text-rose-800';
-    return 'bg-rose-50 text-rose-700';
+    return score > 0 ? 'bg-emerald-50 text-emerald-700' : 
+           score === 0 ? 'bg-amber-50 text-amber-700' : 
+           'bg-rose-50 text-rose-700';
+  };
+
+  const getVotedUsers = () => {
+    const users = new Set<string>();
+    Object.values(data).forEach(dayData => {
+      Object.keys(dayData).forEach(userName => {
+        users.add(userName);
+      });
+    });
+    return Array.from(users).sort();
   };
 
   const variants = {
@@ -172,12 +187,22 @@ export const Calendar: React.FC<CalendarProps> = ({
         <h2 className="text-2xl font-extrabold text-slate-800 tracking-tight">
           {format(currentMonth, 'yyyy年 M月', { locale: zhTW })}
         </h2>
-        <button 
-          onClick={nextMonth} 
-          className="p-3 rounded-2xl hover:bg-slate-50 text-slate-400 hover:text-slate-600 transition-all active:scale-90"
-        >
-          <ChevronRight className="w-6 h-6" />
-        </button>
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={() => setIsVotedUsersOpen(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-2xl transition-all border border-slate-200 active:scale-95"
+            title="查看已投票人員"
+          >
+            <Users className="w-5 h-5" />
+            <span className="text-sm font-bold hidden sm:inline">已投票人員</span>
+          </button>
+          <button 
+            onClick={nextMonth} 
+            className="p-3 rounded-2xl hover:bg-slate-50 text-slate-400 hover:text-slate-600 transition-all active:scale-90"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-7 bg-slate-50/50 border-b border-slate-100">
@@ -207,8 +232,9 @@ export const Calendar: React.FC<CalendarProps> = ({
               const isToday = isSameDay(day, new Date());
               
               const hasData = !!data[dateStr];
+              const isVoted = currentUser ? !!data[dateStr]?.[currentUser.name] : false;
               const score = getDayScore(dateStr);
-              const colorClass = getDayColor(score, hasData);
+              const colorClass = getDayColor(score, hasData && isVoted);
 
               return (
                 <div
@@ -225,8 +251,8 @@ export const Calendar: React.FC<CalendarProps> = ({
                   className={twMerge(
                     "border-b border-r border-slate-50 p-3 relative cursor-pointer transition-all flex flex-col justify-between group",
                     !isCurrentMonth && "bg-slate-50/30 text-slate-300",
-                    isCurrentMonth && !hasData && "bg-white text-slate-600 hover:bg-slate-50",
-                    isCurrentMonth && hasData && colorClass,
+                    isCurrentMonth && !colorClass && "bg-white text-slate-600 hover:bg-slate-50",
+                    isCurrentMonth && colorClass,
                     isSelected && "bg-blue-50 ring-2 ring-inset ring-blue-500/30 z-10"
                   )}
                 >
@@ -260,6 +286,12 @@ export const Calendar: React.FC<CalendarProps> = ({
           </motion.div>
         </AnimatePresence>
       </div>
+
+      <VotedUsersPopup 
+        isOpen={isVotedUsersOpen}
+        onClose={() => setIsVotedUsersOpen(false)}
+        votedUsers={getVotedUsers()}
+      />
     </div>
   );
 };

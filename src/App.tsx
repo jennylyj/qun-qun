@@ -109,6 +109,7 @@ function App() {
               currentMonth={currentMonth}
               onMonthChange={setCurrentMonth}
               onDayContextMenu={handleDayContextMenu}
+              currentUser={currentUser}
             />
           </motion.div>
         )}
