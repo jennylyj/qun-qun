@@ -1,0 +1,18 @@
+/* Custom styles for App component */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  /*置中*/
+  align-items: center;
+  /*寬度設為畫面的60％ 且最少 600px*/
+  width: 60%;
+  min-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  gap: 1.5rem;
+}
+.app-header {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+}
