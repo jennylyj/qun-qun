@@ -75,8 +75,13 @@ function App() {
         <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
           群群約時間
         </h1>
-        <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
-          簡單、快速、直覺的團隊時間協調工具。
+        <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto whitespace-pre-line">
+          請選擇有空的日期，時間以晚上 6:30~8:30 為主。 
+          目前的目標是：
+          1. 在開學前兩週約出景福校友參訪的「檢討會」
+          2. 在二月約出（可能的）七月文藝復興參訪的「說明會」
+          3. 未來這個學期共約出8次聚會時間。
+          從二月開始投票吧～
         </p>
         {currentUser && (
           <div className="mt-6 inline-flex items-center px-4 py-2 rounded-full bg-white shadow-sm border border-slate-200">
